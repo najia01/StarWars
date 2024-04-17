@@ -1,15 +1,52 @@
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %}
 
 {% block title %}Index des personnages
 {% endblock %}
 
 {% block body %}
-	{% for personnage in personnages %}
+	{% for personnage in personnages.results %}
 
 		<article>
             <a href="{{ path('app_personnage', {'id': (personnage.url|split('/'))[5]}) }}">
             {{ personnage.name }}
         </a>
 		</article>
+		<div>
+			{% if prevPage %}
+				<a href="{{ path('app_home', {'page': prevPage}) }}">Previous</a>
+			{% endif %}
+			<a href="{{ path('app_home', {'page': nextPage}) }}">Next</a>
+		</div>
 	{% endfor %}
+{% endblock %} #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Index des personnages{% endblock %}
+
+{% block body %}
+    <section>
+        {% for personnage in personnages.results %}
+            <article>
+                <!-- Here, assuming that 'personnage.url' gives something like 'https://swapi.py4e.com/api/people/1/' -->
+                <a href="{{ path('app_personnage', {'id': (personnage.url|split('/'))[5]}) }}">
+                    {{ personnage.name }}
+                </a>
+            </article>
+        {% endfor %}
+    </section>
+
+    <div class="pagination">
+        {% if prevPage %}
+            <a href="{{ path('app_home', {'page': prevPage}) }}">Previous</a>
+        {% endif %}
+
+        <!-- Showing the current page number -->
+        <span>Page {{ currentPage }}</span>
+
+        <!-- Link to the next page, only if there is data to show -->
+        {% if personnages.next %}
+            <a href="{{ path('app_home', {'page': nextPage}) }}">Next</a>
+        {% endif %}
+    </div>
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Planètes{% endblock %}
+
+{% block body %}
+<h1>Planètes</h1>
+{% for planet in planets %}
+    <div>
+        <h2>{{ planet.name }}</h2>
+        <p>Population: {{ planet.population }}</p>
+        <p>Climate: {{ planet.climate }}</p>
+        <!-- Ajoutez d'autres propriétés ici si nécessaire -->
+    </div>
+{% endfor %}
+<div>
+    {% if prevPage %}
+        <a href="{{ path('app_planets', {'page': prevPage}) }}">Page précédente</a>
+    {% endif %}
+    <a href="{{ path('app_planets', {'page': nextPage}) }}">Page suivante</a>
+</div>
+{% endblock %}
